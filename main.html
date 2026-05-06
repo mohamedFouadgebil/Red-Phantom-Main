@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Red Phantom</title>
+    <link rel="icon" href="./images/Red Phantom.png" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", sans-serif;
+        background: #070b17;
+        color: #e2e2e2;
+        overflow-x: hidden;
+      }
+      ::-webkit-scrollbar {
+        width: 7px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #ff003c;
+        border-radius: 10px;
+      }
+      .alert-bar {
+        width: 100%;
+        text-align: center;
+        padding: 8px;
+        background: #ff003c;
+        color: white;
+        font-weight: bold;
+        letter-spacing: 1px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 10;
+      }
+      header {
+        text-align: center;
+        padding: 120px 20px 70px;
+        background: linear-gradient(135deg, #ff003c50, #41006ba0);
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+      header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image:
+          linear-gradient(#ffffff10 1px, transparent 1px),
+          linear-gradient(90deg, #ffffff10 1px, transparent 1px);
+        background-size: 40px 40px;
+        animation: gridMove 15s linear infinite;
+        z-index: 0;
+      }
+      @keyframes gridMove {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(40px);
+        }
+      }
+      header h1 {
+        font-size: 4rem;
+        margin-bottom: 10px;
+        z-index: 2;
+        position: relative;
+        text-shadow: 0 0 20px #ff003c;
+        border-right: 3px solid #ff003c;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      header p {
+        font-size: 1.25rem;
+        opacity: 0.9;
+        z-index: 2;
+        position: relative;
+      }
+      .container {
+        width: 90%;
+        margin: 50px auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+      }
+      .card {
+        background: rgba(10, 15, 31, 0.7);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 0, 60, 0.2);
+        padding: 30px;
+        border-radius: 20px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, transparent, #ff003c, transparent);
+        transform: translateX(-100%);
+        transition: 0.5s;
+      }
+      .card:hover::before {
+        transform: translateX(100%);
+      }
+      .card:hover {
+        transform: translateY(-10px);
+        border-color: #ff003c;
+        box-shadow:
+          0 15px 35px rgba(255, 0, 60, 0.2),
+          inset 0 0 15px rgba(255, 0, 60, 0.1);
+      }
+      .card-icon-wrapper {
+        position: relative;
+        margin-bottom: 20px;
+      }
+      .card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 12px;
+        filter: grayscale(30%);
+        transition: 0.4s;
+      }
+      .card:hover img {
+        filter: grayscale(0%);
+        transform: scale(1.02);
+      }
+      .card-tag {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #ff003c;
+        font-size: 0.7rem;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+      .card h2 {
+        margin: 15px 0;
+        font-size: 1.5rem;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .card h2 span {
+        color: #ff003c;
+      }
+      .card p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: #b0b0b0;
+        margin-bottom: 25px;
+      }
+      .try-btn {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ff003c;
+        border-radius: 10px;
+        background: transparent;
+        color: #ff003c;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .card:hover .try-btn {
+        background: #ff003c;
+        color: white;
+        box-shadow: 0 0 15px #ff003c;
+      }
+      .card-number {
+        position: absolute;
+        bottom: -20px;
+        right: -10px;
+        font-size: 6rem;
+        font-weight: 900;
+        color: rgba(255, 255, 255, 0.03);
+        pointer-events: none;
+        z-index: 0;
+      }
+      .features {
+        width: 90%;
+        margin: 80px auto;
+        text-align: center;
+      }
+      .features h2 {
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        color: #ff003c;
+        text-shadow: 0 0 20px #ff003c;
+      }
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 25px;
+      }
+      .feature-box {
+        padding: 20px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        transition: 0.3s;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .feature-box:hover {
+        transform: translateY(-6px);
+        border-color: #9400ff;
+        box-shadow: 0 0 20px rgba(148, 0, 255, 0.3);
+      }
+      .feature-box span {
+        font-size: 2.2rem;
+        display: block;
+        margin-bottom: 10px;
+      }
+      .why {
+        width: 90%;
+        margin: 80px auto;
+        text-align: center;
+      }
+      .why-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 25px;
+      }
+      .why-card {
+        background: rgba(255, 255, 255, 0.06);
+        padding: 20px;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition: 0.3s;
+      }
+      .why-card:hover {
+        transform: translateY(-6px);
+        border-color: #ff003c;
+        box-shadow: 0 0 20px rgba(255, 0, 60, 0.3);
+      }
+      .stats {
+        width: 90%;
+        margin: 80px auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 25px;
+        text-align: center;
+      }
+      .stat-card {
+        padding: 25px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        transition: 0.3s;
+      }
+      .stat-card:hover {
+        transform: scale(1.05);
+        border-color: #ff003c;
+        box-shadow: 0 0 20px rgba(255, 0, 60, 0.4);
+      }
+      .stat-card h3 {
+        font-size: 2.2rem;
+        color: #ff003c;
+      }
+      .quote {
+        text-align: center;
+        margin: 80px auto;
+        font-size: 1.6rem;
+        opacity: 0.9;
+        width: 70%;
+        line-height: 1.7;
+      }
+      .devs-section {
+        margin-top: 70px;
+        text-align: center;
+      }
+      .devs-title {
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        color: #ff003c;
+      }
+      .dev-card {
+        background: rgba(255, 255, 255, 0.06);
+        padding: 25px;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        transition: 0.3s;
+        text-align: center;
+      }
+      .dev-card:hover {
+        transform: translateY(-6px);
+        border-color: #9400ff;
+        box-shadow: 0 0 15px rgba(148, 0, 255, 0.3);
+      }
+      .cta {
+        text-align: center;
+        margin: 100px auto;
+      }
+      .cta h2 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
+      .cta-btn {
+        padding: 14px 30px;
+        border: none;
+        border-radius: 10px;
+        background: #ff003c;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+        margin: 10px;
+        transition: 0.3s;
+      }
+      .cta-btn:hover {
+        background: #cc002f;
+        transform: scale(1.05);
+      }
+      footer {
+        margin-top: 100px;
+        padding: 25px;
+        text-align: center;
+        background: #0a0f1f;
+        border-top: 1px solid #222;
+        color: #aaa;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="alert-bar">Red Phantom - A complete cybersecurity platform</div>
+
+    <header>
+      <h1 id="typewriter"></h1>
+      <p>
+        The ultimate unified cyber platform — AI chatbot, vulnerability
+        scanning, and full tool simulation.
+      </p>
+    </header>
+
+    <div class="container">
+      <div class="card">
+        <div class="card-number">01</div>
+        <div class="card-icon-wrapper">
+          <span class="card-tag">Defensive</span>
+          <img src="images/Discovering Vulnerabilities.jpg" alt="" />
+        </div>
+        <div>
+          <h2><span>🛡</span> Discovering Vulnerabilities</h2>
+          <p>
+            Advanced scanning engine that detects weaknesses and generates
+            detailed cyber reports.
+          </p>
+        </div>
+        <button
+          class="try-btn"
+          onclick="
+            location.href =
+              'D:/Delta/Level 4/Project/security-scanner-tool/frontend/index.html'
+          "
+        >
+          Scan System
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-number">02</div>
+        <div class="card-icon-wrapper">
+          <span class="card-tag">AI Powered</span>
+          <img src="images/chatbot.jpg" alt="" />
+        </div>
+        <div>
+          <h2><span>⚡</span> CyberSecurity ChatBot</h2>
+          <p>
+            Intelligent cyber assistant that analyzes threats, explains attacks,
+            and generates professional responses.
+          </p>
+        </div>
+        <button
+          class="try-btn"
+          onclick="location.href = '../Red-Phantom-Bot/frontend/landing.html'"
+        >
+          Try Now
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-number">03</div>
+        <div class="card-icon-wrapper">
+          <span class="card-tag">Lab</span>
+          <img src="images/code.jpg" alt="" />
+        </div>
+        <div>
+          <h2><span>🧪</span> Tools Simulation</h2>
+          <p>
+            A full cyber simulation sandbox — run offensive & defensive tools
+            without installing anything.
+          </p>
+        </div>
+        <button
+          class="try-btn"
+          onclick="window.open('http://127.0.0.1:5000', '_blank')"
+        >
+          Start Simulation
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-number">04</div>
+        <div class="card-icon-wrapper">
+          <span class="card-tag">Hunting</span>
+          <img src="images/xss.jpg" alt="" />
+        </div>
+        <div>
+          <h2><span>⚡</span> Bugbounty Program</h2>
+          <p>
+            Security tool used to detect XSS vulnerabilities by identifying
+            malicious input points within web apps.
+          </p>
+        </div>
+        <button
+          class="try-btn"
+          onclick="window.open('http://127.0.0.1:5000/', '_blank')"
+        >
+          Start Scan
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-number">05</div>
+        <div class="card-icon-wrapper">
+          <span class="card-tag">Offensive</span>
+          <img src="images/phishing.jpg" alt="" />
+        </div>
+        <div>
+          <h2><span>🧪</span> Phishing</h2>
+          <p>
+            Social engineering attack tricks users into revealing info by
+            impersonating trusted platforms.
+          </p>
+        </div>
+        <button
+          class="try-btn"
+          onclick="window.open(' http://127.0.0.1:4000/dashboard', '_blank')"
+        >
+          Start Simulation
+        </button>
+      </div>
+    </div>
+
+    <div class="features">
+      <h2>Platform Highlights</h2>
+      <div class="features-grid">
+        <div class="feature-box"><span>🔥</span> Unified Cyber Suite</div>
+        <div class="feature-box"><span>⚙️</span> Node Js</div>
+        <div class="feature-box"><span>🤖</span> AI-Powered Analysis</div>
+        <div class="feature-box"><span>🛡</span> Real Vulnerability Scan</div>
+        <div class="feature-box"><span>☁</span> Cloud-Optimized</div>
+      </div>
+    </div>
+
+    <div class="why">
+      <h2 style="color: white; margin-bottom: 20px">Why Red Phantom?</h2>
+      <div class="why-cards">
+        <div class="why-card">
+          <h3>🚀 Faster Cyber Workflow</h3>
+          <p>
+            Analyze, scan, and simulate — all from a single powerful interface.
+          </p>
+        </div>
+        <div class="why-card">
+          <h3>🧠 Smart AI Engine</h3>
+          <p>Understands attacks and predicts how threats behave.</p>
+        </div>
+        <div class="why-card">
+          <h3>🔧 Realistic Simulation</h3>
+          <p>Run cyber tools safely with real-world behaviours.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <h3>1200+</h3>
+        <p>Threats Analyzed</p>
+      </div>
+      <div class="stat-card">
+        <h3>800+</h3>
+        <p>Detected Vulnerabilities</p>
+      </div>
+      <div class="stat-card">
+        <h3>99%</h3>
+        <p>Faster Than Manual Testing</p>
+      </div>
+    </div>
+
+    <div class="quote">
+      “In cyberspace, knowledge is your best defense — and Red Phantom gives you
+      both.”
+    </div>
+
+    <div class="devs-section">
+      <div class="devs-title">Development Team</div>
+      <div class="container">
+        <div class="dev-card">
+          <h3>Kareem Hussein</h3>
+          <p style="color: #ec5858">Cybersecurity Researcher</p>
+        </div>
+        <div class="dev-card">
+          <h3>Abdelrahman Tamer</h3>
+          <p style="color: #ec5858">Incident Response</p>
+        </div>
+        <div class="dev-card">
+          <h3>Mohamed Fouad</h3>
+          <p style="color: #ec5858">Node JS Developer</p>
+        </div>
+        <div class="dev-card">
+          <h3>Abdallah Ahmed</h3>
+          <p style="color: #ec5858">Cybersecurity Analyst</p>
+        </div>
+        <div class="dev-card">
+          <h3>Marwan Adel</h3>
+          <p style="color: #ec5858">Cybersecurity Analyst</p>
+        </div>
+        <div class="dev-card">
+          <h3>Tarek Tamer</h3>
+          <p style="color: #ec5858">AI Engineer</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta">
+      <h2>Ready to Start Your Cyber Journey?</h2>
+      <a href="D:/Delta/Level 4/Project/Red-Phantom-Bot/frontend/docs.html">
+        <button class="cta-btn">View Documentation</button>
+      </a>
+    </div>
+
+    <footer>© 2025 Red Phantom — Cyber Intelligence Platform</footer>
+
+    <script>
+      const text = "Red Phantom";
+      let index = 0;
+      let isDeleting = false;
+      const speed = 150;
+      const deleteSpeed = 80;
+      const delayAfterFinish = 1000;
+      const title = document.getElementById("typewriter");
+
+      function typeWriter() {
+        if (!isDeleting) {
+          if (index < text.length) {
+            title.innerHTML += text.charAt(index);
+            index++;
+            setTimeout(typeWriter, speed);
+          } else {
+            isDeleting = true;
+            setTimeout(typeWriter, delayAfterFinish);
+          }
+        } else {
+          if (index > 1) {
+            title.innerHTML = text.substring(0, index - 1);
+            index--;
+            setTimeout(typeWriter, deleteSpeed);
+          } else {
+            isDeleting = false;
+            setTimeout(typeWriter, 500);
+          }
+        }
+      }
+      window.onload = typeWriter;
+    </script>
+  </body>
+</html>
